@@ -1,0 +1,8 @@
+{
+  "name": "papelitos-the-game-app",
+  "app_id": "78d41f80",
+  "type": "ionic-angular",
+  "integrations": {
+    "cordova": {}
+  }
+}
