@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {Component} from '@angular/core';
+import {IonicPage, NavController} from 'ionic-angular';
 
 import {GameService} from '../../app/shared/Game.service';
+import {PagesList} from "../pages.factory";
 
 @IonicPage()
 @Component({
@@ -9,9 +10,27 @@ import {GameService} from '../../app/shared/Game.service';
   templateUrl: 'global-user-selection.html',
 })
 export class GlobalUserSelectionPage {
+  private totalPlayers: number;
+  public maxPlayers: number = 20;
+  public error: string;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public game: GameService) {
-    console.log('Game id', this.game.id);
+  constructor(public navCtrl: NavController, public game: GameService) {
+  }
+
+  public totalPlayerSelection(playerTotal: number): void {
+    this.error = null;
+    this.totalPlayers = playerTotal;
+  }
+
+  public confirmScreen(): void {
+    this.error = null;
+    if (this.totalPlayers > 0 && this.totalPlayers % 2 == 0) {
+      this.game.setPlayers(this.totalPlayers);
+      this.navCtrl.push(PagesList.localUserSelection);
+    } else {
+      // TODO sacar a archivo de strings de respuesta
+      this.error = "El número de jugadores no es valido, recuerda que debe ser un número <strong>par</strong>, menor a 20"
+    }
   }
 
 }

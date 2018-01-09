@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {IonicPage, NavController, MenuController} from 'ionic-angular';
 
 import {GameService} from '../../app/shared/Game.service';
+import {PagesList} from '../pages.factory';
 
 @IonicPage()
 @Component({
@@ -15,9 +16,8 @@ export class HomePage {
   }
 
   startGame() {
-    this.game.start(123);
-    console.log('Game id 1', this.game.id);
-    this.navCtrl.push('GlobalUserSelectionPage');
+    this.game.start();
+    this.navCtrl.push(PagesList.userSelection);
   }
 
 }

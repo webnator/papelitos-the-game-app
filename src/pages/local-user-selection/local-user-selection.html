@@ -1,0 +1,6 @@
+
+<ion-content padding>
+  ¿Cuantos desde este dispositivo?
+  <number-selector [max]="gamePlayers" (onChange)="localPlayerSelection($event)"></number-selector>
+  <button (click)="confirmScreen()">Siguiente</button>
+</ion-content>

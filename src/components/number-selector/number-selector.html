@@ -1,4 +1,20 @@
 
 <div>
-  Hello
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <button (click)="add()">+</button>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <input type="number" (keyup)="setNumValue($event)" [(ngModel)]="numValue" placeholder="0" >
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <button (click)="subtract()">-</button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </div>

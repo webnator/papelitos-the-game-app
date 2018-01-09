@@ -1,5 +1,7 @@
 
 <ion-content padding>
   ¿Cuantos estarán jugando hoy?
-  <number-selector></number-selector>
+  <number-selector [max]="maxPlayers" (onChange)="totalPlayerSelection($event)"></number-selector>
+  <button (click)="confirmScreen()">Siguiente</button>
+  <div *ngIf="error" [innerHTML]="error"></div>
 </ion-content>
