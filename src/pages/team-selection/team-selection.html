@@ -1,0 +1,33 @@
+
+<ion-content padding>
+  <div *ngIf="!selectionStarted">
+    ¿Quieres que formemos los equipos aleatoriamente, o quieres formarlos tú?
+    <button (click)="selectTeams(true)">Aleatorio</button>
+    <button (click)="selectTeams(false)">Yo me encargo</button>
+  </div>
+  <div *ngIf="selectionStarted && !showConfirmScreen">
+    <div>
+      <div *ngFor="let team of teamList; let i = index" (click)="team.removePlayer()">
+        <span>{{ i + 1 }}</span>
+        <span *ngFor="let player of team.players">
+          - {{player.alias}}
+        </span>
+      </div>
+    </div>
+    <div>
+      <div *ngFor="let player of playerList">
+        <button (click)="assignTeam(player)" [disabled]="player.hasTeam">{{ player.name }}</button>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="showConfirmScreen">
+    <div *ngFor="let team of teamList; let i = index">
+      <span>{{ i + 1 }}</span>
+      <span *ngFor="let player of team.players">
+          - {{player.name}}
+        </span>
+    </div>
+  </div>
+  <button *ngIf="showConfirmScreen" (click)="goBack()">Atras</button>
+  <button (click)="confirmScreen()">Siguiente</button>
+</ion-content>

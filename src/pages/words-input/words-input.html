@@ -1,0 +1,23 @@
+
+<ion-content padding>
+  <ion-row>
+    <ion-col col-2>
+      <div *ngFor="let player of playerList" (click)="selectPlayerForWordSelection(player)">
+        {{ player.alias }} <span *ngIf="player.hasEnteredWords === true">√</span>
+      </div>
+    </ion-col>
+    <ion-col>
+      <span>{{ currentPlayer.name }}... Es tu turno</span>
+      <span>Introduce {{ currentPlayer.words.length }}</span> palabras o frases cortas que los demás deberán adivinar
+
+      <ion-list>
+        <ion-item *ngFor="let word of currentPlayer.words; trackBy: trackByIndex; let i = index ">
+          <ion-input type="text" placeholder="Palabra {{i+1}}" (blur)="currentPlayer.setWord(i, $event.target.value)" value="{{word}}" ></ion-input>
+        </ion-item>
+      </ion-list>
+
+      <button (click)="confirmScreen()">Siguiente</button>
+
+    </ion-col>
+  </ion-row>
+</ion-content>

@@ -3,6 +3,7 @@ import {IonicPage, NavController} from 'ionic-angular';
 
 import {GameService} from '../../app/shared/Game.service';
 import {PagesList} from "../pages.factory";
+import {config} from "../../app/shared/config";
 
 @IonicPage()
 @Component({
@@ -11,7 +12,7 @@ import {PagesList} from "../pages.factory";
 })
 export class GlobalUserSelectionPage {
   private totalPlayers: number;
-  public maxPlayers: number = 20;
+  public maxPlayers: number = config.MAX_GAME_PLAYERS;
   public error: string;
 
   constructor(public navCtrl: NavController, public game: GameService) {
@@ -25,7 +26,7 @@ export class GlobalUserSelectionPage {
   public confirmScreen(): void {
     this.error = null;
     if (this.totalPlayers > 0 && this.totalPlayers % 2 == 0) {
-      this.game.setPlayers(this.totalPlayers);
+      this.game.setTotalNumPlayers(this.totalPlayers);
       this.navCtrl.push(PagesList.localUserSelection);
     } else {
       // TODO sacar a archivo de strings de respuesta

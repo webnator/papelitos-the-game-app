@@ -1,0 +1,64 @@
+
+<ion-content padding>
+  <!-- Round start information screen -->
+  <div *ngIf="gameState === States.ROUND_INFO">
+    <span>{{ game.round.title }}</span>
+    <br/>
+    <span>{{ game.round.text }}</span>
+    <br/>
+    <button (click)="startRound()">Comenzar</button>
+  </div>
+
+  <!-- Player call -->
+  <div *ngIf="gameState === States.PLAYER_CALL">
+    <span>Equipo {{currentTeam.name}}</span>
+    <br/>
+    <span>{{currentTeam.currentPlayer.name}}... Es tu turno</span>
+    <br/>
+    <button (click)="startTurn()">Comenzar</button>
+  </div>
+
+  <!-- Player turn -->
+  <div *ngIf="gameState === States.PLAYER_TURN">
+    <ion-grid>
+      <ion-row>
+        <ion-col col-1>
+          {{currentTeam.name}}
+        </ion-col>
+        <ion-col>
+          <h4>{{currentTeam.currentPlayer.name}}</h4>
+          <span>Adivina:
+            <span *ngFor="let player of currentTeam.guessingPlayers; let i = index">
+              {{player.name}} <span *ngIf="i < (currentTeam.guessingPlayers.length - 1)">, </span>
+            </span>
+          </span>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>{{ game.guessWord }}</ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>TIEMPO</ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>Papelitos restantes: <strong>{{ game.roundWords.length }}</strong></ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <button (click)="wordGuessed()">SIGUIENTE PALABRA</button>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          Puntos este turno: <strong>{{turnPoints}}</strong>
+          <br/><br/><br/>
+          Puntos totales: <strong>{{currentTeam.totalPoints}}</strong>
+        </ion-col>
+      </ion-row>
+
+
+    </ion-grid>
+  </div>
+</ion-content>

@@ -12,7 +12,6 @@ import {PagesList} from "../pages.factory";
 export class LocalUserSelectionPage {
   private localPlayers: number;
   public gamePlayers: number;
-  public error: string;
 
   constructor(public navCtrl: NavController, public game: GameService) {
     this.gamePlayers = this.game.totalPlayers;
@@ -23,7 +22,7 @@ export class LocalUserSelectionPage {
   }
 
   public confirmScreen(): void {
-    this.game.setLocalPlayers(this.localPlayers);
+    this.game.setTotalNumLocalPlayers(this.localPlayers);
     this.navCtrl.push(PagesList.nameInput);
   }
 
