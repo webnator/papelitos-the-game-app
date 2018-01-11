@@ -3,17 +3,21 @@ import {CommonModule}       from '@angular/common';
 import {IonicModule} from 'ionic-angular';
 
 import {NumberSelectorComponent} from './number-selector/number-selector';
+import {TimerComponent} from "./timer/timer";
 
 @NgModule({
   declarations: [
-    NumberSelectorComponent
+    NumberSelectorComponent,
+    TimerComponent
   ],
   imports: [
     CommonModule,
     IonicModule.forRoot(NumberSelectorComponent),
+    IonicModule.forRoot(TimerComponent),
   ],
   exports: [
-    NumberSelectorComponent
+    NumberSelectorComponent,
+    TimerComponent
   ]
 })
 export class ComponentsModule {

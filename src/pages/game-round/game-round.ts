@@ -4,6 +4,7 @@ import {IonicPage, NavController} from 'ionic-angular';
 import {GameService} from '../../app/shared/Game.service';
 import {PagesList} from "../pages.factory";
 import {Team} from "../../app/shared/Team";
+import {config} from "../../app/shared/config";
 
 @IonicPage()
 @Component({
@@ -17,9 +18,11 @@ export class GameRoundPage {
 
   public gameState: GameStates;
   public States = GameStates;
+  public TURN_TIME: number = config.TURN_TIME;
   public turnPoints: number = 0;
 
   constructor(public navCtrl: NavController, public game: GameService) {
+
     // TESTING Initialization
     this.game.start();
     this.game.setTotalNumPlayers(8);
@@ -32,6 +35,8 @@ export class GameRoundPage {
       player.setWord(2, player.alias + '-XYZ');
     });
     // END TEST
+
+    this.game.roundFinished.subscribe(this.gameRoundFinished);
     this.teamList = this.game.teams;
     this.startNewRound();
 
@@ -68,6 +73,13 @@ export class GameRoundPage {
     } else {
       console.log('Game ended!!!', 'next screen?');
       this.navCtrl.push(PagesList.gameRound)
+    }
+  }
+
+  private gameRoundFinished(hasFinished: boolean) {
+    if (hasFinished === true) {
+      // Reset user round
+      this.gameState = GameStates.END_TURN;
     }
   }
 }

@@ -39,7 +39,9 @@
         <ion-col>{{ game.guessWord }}</ion-col>
       </ion-row>
       <ion-row>
-        <ion-col>TIEMPO</ion-col>
+        <ion-col>
+          <timer [time]="TURN_TIME"></timer>
+        </ion-col>
       </ion-row>
       <ion-row>
         <ion-col>Papelitos restantes: <strong>{{ game.roundWords.length }}</strong></ion-col>

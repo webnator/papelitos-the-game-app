@@ -1,4 +1,6 @@
 
+import {EventEmitter} from "@angular/core";
+
 import {Player} from './Player';
 import {Team} from './Team';
 import {config} from "./config";
@@ -9,7 +11,7 @@ export class GameService {
   private currentRoundIndex: number = 0;
   private _roundWords: Array<string> = [];
 
-  public _roundFinished: boolean;
+  public roundFinished = new EventEmitter<boolean>();
 
   totalPlayers: number;
   localPlayers: number;
@@ -42,19 +44,15 @@ export class GameService {
     return this._roundWords;
   }
 
-  get roundIsFinished() {
-    return this._roundFinished;
-  }
-
   public startRound(): boolean {
     if (this.currentRoundIndex >= this.gameRounds.length) {return false;}
     this.setRoundWords();
-    this._roundFinished = false;
+    this.roundFinished.emit(false);
     return true;
   }
 
   private finishRound() {
-    this._roundFinished = true;
+    this.roundFinished.emit(true);
     this.currentRoundIndex++;
   }
 
