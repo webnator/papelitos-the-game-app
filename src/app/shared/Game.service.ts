@@ -51,6 +51,17 @@ export class GameService {
     return true;
   }
 
+  public getListOfTeamByPoints(): Array<Team> {
+    const teamsByPoints = this.teams.slice();
+    teamsByPoints.sort((teamA, teamB) => {
+      if (teamA.totalPoints <= teamB.totalPoints) {
+        return 1;
+      }
+      return -1;
+    });
+    return teamsByPoints;
+  }
+
   private finishRound() {
     this.roundFinished.emit(true);
     this.currentRoundIndex++;

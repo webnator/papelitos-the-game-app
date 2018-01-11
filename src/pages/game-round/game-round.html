@@ -4,7 +4,7 @@
   <div *ngIf="gameState === States.ROUND_INFO">
     <span>{{ game.round.title }}</span>
     <br/>
-    <span>{{ game.round.text }}</span>
+    <span [innerHTML]="game.round.text"></span>
     <br/>
     <button (click)="startRound()">Comenzar</button>
   </div>
@@ -19,9 +19,9 @@
   </div>
 
   <!-- Player turn -->
-  <div *ngIf="gameState === States.PLAYER_TURN">
+  <div [hidden]="gameState !== States.PLAYER_TURN">
     <ion-grid>
-      <ion-row>
+      <ion-row *ngIf="gameState === States.PLAYER_TURN">
         <ion-col col-1>
           {{currentTeam.name}}
         </ion-col>
@@ -40,7 +40,7 @@
       </ion-row>
       <ion-row>
         <ion-col>
-          <timer [time]="TURN_TIME"></timer>
+          <timer [time]="TURN_TIME" (onChange)="handleTimer($event)"></timer>
         </ion-col>
       </ion-row>
       <ion-row>
@@ -52,13 +52,46 @@
         </ion-col>
       </ion-row>
 
-      <ion-row>
+      <ion-row *ngIf="gameState === States.PLAYER_TURN">
         <ion-col>
           Puntos este turno: <strong>{{turnPoints}}</strong>
           <br/><br/><br/>
           Puntos totales: <strong>{{currentTeam.totalPoints}}</strong>
         </ion-col>
       </ion-row>
+
+
+    </ion-grid>
+  </div>
+
+  <!-- Turn summary -->
+  <div *ngIf="gameState === States.END_TURN">
+    Fin del turno
+    <ion-grid>
+      <ion-row>
+        <ion-col col-1>
+          {{currentTeam.name}}
+        </ion-col>
+        <ion-col>
+          Puntos en este turno: <strong>{{turnPoints}}</strong>
+          <br/>
+          Puntos totales: <strong>{{currentTeam.totalPoints}}</strong>
+        </ion-col>
+      </ion-row>
+      <ion-list>
+        <ion-item *ngFor="let team of orderedTeamList">
+          <ion-row>
+            <ion-col col-11>
+              Equipo {{team.name}}
+            </ion-col>
+            <ion-col col-1>
+              {{team.totalPoints}}
+            </ion-col>
+          </ion-row>
+        </ion-item>
+      </ion-list>
+      <button (click)="startRound()">Continuar</button>
+
 
 
     </ion-grid>

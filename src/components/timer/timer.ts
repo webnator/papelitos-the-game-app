@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, Output, EventEmitter} from '@angular/core';
 
 @Component({
   selector: 'timer',
@@ -6,6 +6,7 @@ import {Component, Input} from '@angular/core';
 })
 export class TimerComponent {
   @Input() time: number;
+  @Output() onChange = new EventEmitter<number>();
 
   public minutes: string;
   public seconds: string;
@@ -40,6 +41,7 @@ export class TimerComponent {
   private countdown() {
     if (this.secondsLeft > 0) {
       this.secondsLeft--;
+      this.onChange.emit(this.secondsLeft);
       this.formatTime();
       this.setTimeoutInterval();
     }
@@ -51,8 +53,8 @@ export class TimerComponent {
 
   private formatTime() {
     const timerDate = new Date(this.secondsLeft * 1000);
-    this.minutes = timerDate.getMinutes().toString();
-    this.seconds = timerDate.getSeconds().toString();
+    this.minutes = ('0' + timerDate.getMinutes().toString()).substr(-2);
+    this.seconds = ('0' + timerDate.getSeconds().toString()).substr(-2);
   }
 
 }

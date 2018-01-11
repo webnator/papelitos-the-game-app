@@ -1,10 +1,11 @@
-import {Component} from '@angular/core';
+import {AfterViewInit, Component, ViewChild} from '@angular/core';
 import {IonicPage, NavController} from 'ionic-angular';
 
 import {GameService} from '../../app/shared/Game.service';
 import {PagesList} from "../pages.factory";
 import {Team} from "../../app/shared/Team";
 import {config} from "../../app/shared/config";
+import {TimerComponent} from "../../components/timer/timer";
 
 @IonicPage()
 @Component({
@@ -12,9 +13,14 @@ import {config} from "../../app/shared/config";
   templateUrl: 'game-round.html',
 })
 
-export class GameRoundPage {
+export class GameRoundPage implements AfterViewInit {
+
+  @ViewChild(TimerComponent)
+  private timerComponent: TimerComponent;
+
   private teamList: Array<Team>;
-  private currentTeamIndex: number = 0;
+  private orderedTeamList: Array<Team>;
+  private currentTeamIndex: number;
 
   public gameState: GameStates;
   public States = GameStates;
@@ -36,10 +42,13 @@ export class GameRoundPage {
     });
     // END TEST
 
-    this.game.roundFinished.subscribe(this.gameRoundFinished);
+    this.game.roundFinished.subscribe(this.gameRoundFinished.bind(this));
     this.teamList = this.game.teams;
-    this.startNewRound();
 
+  }
+
+  ngAfterViewInit() {
+    this.startNewRound();
   }
 
   public get currentTeam() {
@@ -54,16 +63,34 @@ export class GameRoundPage {
   }
 
   public startRound() {
+    if (typeof this.currentTeamIndex === 'undefined') {
+      this.currentTeamIndex = 0;
+    } else {
+      if (this.currentTeamIndex >= (this.teamList.length - 1)) {
+        this.currentTeamIndex = 0;
+      } else {
+        this.currentTeamIndex++;
+      }
+    }
     this.gameState = GameStates.PLAYER_CALL;
   }
 
   public startTurn() {
     this.turnPoints = 0;
     this.gameState = GameStates.PLAYER_TURN;
+    this.timerComponent.start();
   }
 
-  public confirmScreen(): void {
+  public handleTimer(timeLeft: number) {
+    if (timeLeft === 0) {
+      this.finishPlayerTurn();
+    }
+  }
 
+  private finishPlayerTurn() {
+    this.orderedTeamList = this.game.getListOfTeamByPoints();
+    this.gameState = GameStates.END_TURN;
+    this.currentTeam.nextPlayer();
   }
 
   private startNewRound() {
@@ -71,7 +98,6 @@ export class GameRoundPage {
     if (roundStarted) {
       this.gameState = GameStates.ROUND_INFO;
     } else {
-      console.log('Game ended!!!', 'next screen?');
       this.navCtrl.push(PagesList.gameRound)
     }
   }
@@ -79,7 +105,9 @@ export class GameRoundPage {
   private gameRoundFinished(hasFinished: boolean) {
     if (hasFinished === true) {
       // Reset user round
-      this.gameState = GameStates.END_TURN;
+      this.timerComponent.stop();
+      this.finishPlayerTurn();
+      this.startNewRound();
     }
   }
 }
