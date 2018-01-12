@@ -1,7 +1,7 @@
 
 <ion-content padding>
   <!-- Round start information screen -->
-  <div *ngIf="gameState === States.ROUND_INFO">
+  <div *ngIf="gameState === States.ROUND_INFO && game.round">
     <span>{{ game.round.title }}</span>
     <br/>
     <span [innerHTML]="game.round.text"></span>

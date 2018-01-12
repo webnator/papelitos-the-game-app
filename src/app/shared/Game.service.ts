@@ -45,7 +45,7 @@ export class GameService {
   }
 
   public startRound(): boolean {
-    if (this.currentRoundIndex >= this.gameRounds.length) {return false;}
+    if (this.currentRoundIndex >= (this.gameRounds.length - 1)) {return false;}
     this.setRoundWords();
     this.roundFinished.emit(false);
     return true;
@@ -73,6 +73,16 @@ export class GameService {
     if (this._roundWords.length <= 0) {
       this.finishRound();
     }
+  }
+
+  public reset() {
+    this.currentRoundIndex = 0;
+    this._roundWords = [];
+    this.gamePlayers = [];
+    this.gameTeams = [];
+    this.totalPlayers = undefined;
+    this.localPlayers = undefined;
+    this.remoteGame = undefined;
   }
 
   start() {

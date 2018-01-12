@@ -7,4 +7,5 @@ export const PagesList = {
   teamSelection: 'TeamSelectionPage',
   wordsInput: 'WordsInputPage',
   gameRound: 'GameRoundPage',
+  gameFinish: 'GameFinishPage',
 };

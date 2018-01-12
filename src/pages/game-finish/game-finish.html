@@ -1,0 +1,24 @@
+<ion-content padding>
+  Final del juego
+
+  <div>
+    {{orderedTeamList[0].name}}
+    <br/>
+    Ganador!
+  </div>
+
+  <ion-list>
+    <ion-item *ngFor="let team of orderedTeamList">
+      <ion-row>
+        <ion-col col-11>
+          Equipo {{team.name}}
+        </ion-col>
+        <ion-col col-1>
+          {{team.totalPoints}}
+        </ion-col>
+      </ion-row>
+    </ion-item>
+  </ion-list>
+  <button (click)="confirmScreen()">Terminar</button>
+
+</ion-content>

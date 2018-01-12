@@ -19,7 +19,7 @@ export class GameRoundPage implements AfterViewInit {
   private timerComponent: TimerComponent;
 
   private teamList: Array<Team>;
-  private orderedTeamList: Array<Team>;
+  public orderedTeamList: Array<Team>;
   private currentTeamIndex: number;
 
   public gameState: GameStates;
@@ -30,16 +30,16 @@ export class GameRoundPage implements AfterViewInit {
   constructor(public navCtrl: NavController, public game: GameService) {
 
     // TESTING Initialization
-    this.game.start();
-    this.game.setTotalNumPlayers(8);
-    this.game.setTotalNumLocalPlayers(8);
-    this.game.setLocalPlayers(['Williams', 'Leonel', 'Gabriela', 'Fatima', 'Alejandra', 'Hebert', 'Miguel', 'Somaro']);
-    this.game.players.forEach(player => {
-      this.game.teams.find(team => team.teamComplete === false).setPlayer(player);
-      player.setWord(0, player.alias + '-ABC');
-      player.setWord(1, player.alias + '-CDE');
-      player.setWord(2, player.alias + '-XYZ');
-    });
+    // this.game.start();
+    // this.game.setTotalNumPlayers(8);
+    // this.game.setTotalNumLocalPlayers(8);
+    // this.game.setLocalPlayers(['Williams', 'Leonel', 'Gabriela', 'Fatima', 'Alejandra', 'Hebert', 'Miguel', 'Somaro']);
+    // this.game.players.forEach(player => {
+    //   this.game.teams.find(team => team.teamComplete === false).setPlayer(player);
+    //   player.setWord(0, player.alias + '-ABC');
+    //   player.setWord(1, player.alias + '-CDE');
+    //   player.setWord(2, player.alias + '-XYZ');
+    // });
     // END TEST
 
     this.game.roundFinished.subscribe(this.gameRoundFinished.bind(this));
@@ -95,10 +95,12 @@ export class GameRoundPage implements AfterViewInit {
 
   private startNewRound() {
     const roundStarted = this.game.startRound();
+    console.log('round', roundStarted);
     if (roundStarted) {
       this.gameState = GameStates.ROUND_INFO;
     } else {
-      this.navCtrl.push(PagesList.gameRound)
+      console.log('Moving forward!');
+      this.navCtrl.push(PagesList.gameFinish)
     }
   }
 
