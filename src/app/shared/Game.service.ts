@@ -44,11 +44,12 @@ export class GameService {
     return this._roundWords;
   }
 
-  public startRound(): boolean {
-    if (this.currentRoundIndex >= (this.gameRounds.length - 1)) {return false;}
+  public startRound() {
     this.setRoundWords();
-    this.roundFinished.emit(false);
-    return true;
+  }
+
+  public isThereANextRound() {
+    return !!(this.gameRounds[this.currentRoundIndex]);
   }
 
   public getListOfTeamByPoints(): Array<Team> {

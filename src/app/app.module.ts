@@ -7,6 +7,7 @@ import {MyApp} from './app.component';
 import {GameService} from './shared/Game.service'
 import {StatusBar} from '@ionic-native/status-bar';
 import {SplashScreen} from '@ionic-native/splash-screen';
+import {SocketService} from "./shared/socket.service";
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import {SplashScreen} from '@ionic-native/splash-screen';
   providers: [
     StatusBar,
     SplashScreen,
-    GameService
+    GameService,
+    SocketService
   ]
 })
 export class AppModule {

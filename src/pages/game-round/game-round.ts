@@ -21,6 +21,7 @@ export class GameRoundPage implements AfterViewInit {
   private teamList: Array<Team>;
   public orderedTeamList: Array<Team>;
   private currentTeamIndex: number;
+  private roundFinished: boolean;
 
   public gameState: GameStates;
   public States = GameStates;
@@ -28,31 +29,52 @@ export class GameRoundPage implements AfterViewInit {
   public turnPoints: number = 0;
 
   constructor(public navCtrl: NavController, public game: GameService) {
-
-    // TESTING Initialization
-    // this.game.start();
-    // this.game.setTotalNumPlayers(8);
-    // this.game.setTotalNumLocalPlayers(8);
-    // this.game.setLocalPlayers(['Williams', 'Leonel', 'Gabriela', 'Fatima', 'Alejandra', 'Hebert', 'Miguel', 'Somaro']);
-    // this.game.players.forEach(player => {
-    //   this.game.teams.find(team => team.teamComplete === false).setPlayer(player);
-    //   player.setWord(0, player.alias + '-ABC');
-    //   player.setWord(1, player.alias + '-CDE');
-    //   player.setWord(2, player.alias + '-XYZ');
-    // });
-    // END TEST
-
     this.game.roundFinished.subscribe(this.gameRoundFinished.bind(this));
     this.teamList = this.game.teams;
-
   }
 
   ngAfterViewInit() {
+    this.currentTeamIndex = -1;
     this.startNewRound();
   }
 
   public get currentTeam() {
     return this.teamList[this.currentTeamIndex];
+  }
+
+  private startNewRound() {
+    if (this.game.isThereANextRound()) {
+      this.game.startRound();
+      this.roundFinished = false;
+      this.gameState = GameStates.ROUND_INFO;
+    } else {
+      this.navCtrl.push(PagesList.gameFinish)
+    }
+  }
+
+  public beginPlayerTurns() {
+    if (this.roundFinished === true) {
+      this.startNewRound();
+    } else {
+      if (this.currentTeamIndex >= (this.teamList.length - 1)) {
+        this.currentTeamIndex = 0;
+      } else {
+        this.currentTeamIndex++;
+      }
+      this.gameState = GameStates.PLAYER_CALL;
+    }
+  }
+
+  public startTurn() {
+    this.turnPoints = 0;
+    this.gameState = GameStates.PLAYER_TURN;
+    this.timerComponent.start();
+  }
+
+  private finishTurn() {
+    this.orderedTeamList = this.game.getListOfTeamByPoints();
+    this.gameState = GameStates.END_TURN;
+    this.currentTeam.nextPlayer();
   }
 
   public wordGuessed() {
@@ -62,45 +84,9 @@ export class GameRoundPage implements AfterViewInit {
     }
   }
 
-  public startRound() {
-    if (typeof this.currentTeamIndex === 'undefined') {
-      this.currentTeamIndex = 0;
-    } else {
-      if (this.currentTeamIndex >= (this.teamList.length - 1)) {
-        this.currentTeamIndex = 0;
-      } else {
-        this.currentTeamIndex++;
-      }
-    }
-    this.gameState = GameStates.PLAYER_CALL;
-  }
-
-  public startTurn() {
-    this.turnPoints = 0;
-    this.gameState = GameStates.PLAYER_TURN;
-    this.timerComponent.start();
-  }
-
   public handleTimer(timeLeft: number) {
     if (timeLeft === 0) {
-      this.finishPlayerTurn();
-    }
-  }
-
-  private finishPlayerTurn() {
-    this.orderedTeamList = this.game.getListOfTeamByPoints();
-    this.gameState = GameStates.END_TURN;
-    this.currentTeam.nextPlayer();
-  }
-
-  private startNewRound() {
-    const roundStarted = this.game.startRound();
-    console.log('round', roundStarted);
-    if (roundStarted) {
-      this.gameState = GameStates.ROUND_INFO;
-    } else {
-      console.log('Moving forward!');
-      this.navCtrl.push(PagesList.gameFinish)
+      this.finishTurn();
     }
   }
 
@@ -108,8 +94,8 @@ export class GameRoundPage implements AfterViewInit {
     if (hasFinished === true) {
       // Reset user round
       this.timerComponent.stop();
-      this.finishPlayerTurn();
-      this.startNewRound();
+      this.finishTurn();
+      this.roundFinished = true;
     }
   }
 }

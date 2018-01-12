@@ -17,7 +17,6 @@ export class GameFinishPage {
     this.orderedTeamList = this.game.getListOfTeamByPoints();
   }
 
-
   public confirmScreen(): void {
     this.game.reset();
     this.navCtrl.push(PagesList.home);
