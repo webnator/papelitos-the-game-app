@@ -8,8 +8,8 @@ export class SocketService {
 
   constructor() {}
 
-  public connect(): void {
-    this._connect();
+  public async connect() {
+    await this._connect();
   }
 
   private _handleMessage(msg: MessageEvent): void {
@@ -30,10 +30,26 @@ export class SocketService {
     }
   }
 
-  private _connect(): void {
-    this.socketInstance = new WebSocket(config.SOCKET_URL);
-    this._setErrorHandlers();
-    this.socketInstance.onopen = this._onConnection.bind(this);
+  public publish({event, payload}) {
+    this.socketInstance.send(JSON.stringify({event, payload}));
+  }
+
+  private _connect() {
+    return new Promise((resolve, reject) => {
+      this.socketInstance = new WebSocket(config.SOCKET_URL);
+      let interval;
+      this.socketInstance.onopen = (event) => {
+        this._setErrorHandlers();
+        this.socketInstance.onmessage = this._handleMessage.bind(this);
+        console.log('Connected to socket', event);
+        clearInterval(interval);
+        return resolve(event);
+      };
+      interval = setTimeout(() => {
+        return reject('Connection failed');
+      }, config.CONNECTION_TIMEOUT);
+    });
+
   }
 
   private _setErrorHandlers(): void {
@@ -43,12 +59,7 @@ export class SocketService {
   private _reconnect(): void {
     setTimeout(() => {
       this._connect();
-    }, 5000);
-  }
-
-  private _onConnection(event): void {
-    this.socketInstance.onmessage = this._handleMessage.bind(this);
-    this.socketInstance.send('Seer dashboard instance connected');
+    }, config.CONNECTION_TIMEOUT);
   }
 
   registerListener({event, actions}) {

@@ -24,8 +24,8 @@ import {SocketService} from "./shared/socket.service";
   providers: [
     StatusBar,
     SplashScreen,
+    SocketService,
     GameService,
-    SocketService
   ]
 })
 export class AppModule {

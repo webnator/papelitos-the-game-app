@@ -1,11 +1,13 @@
 
-import {EventEmitter} from "@angular/core";
+import {EventEmitter, Injectable} from "@angular/core";
 
 import {Player} from './Player';
 import {Team} from './Team';
 import {config} from "./config";
 import {shuffleArray} from "./commons";
+import {SocketService} from "./socket.service";
 
+@Injectable()
 export class GameService {
   private gameRounds: Array<object> = config.GAME_ROUNDS;
   private currentRoundIndex: number = 0;
@@ -20,8 +22,17 @@ export class GameService {
   gameTeams: Array<Team> = [];
   status: gameStatus;
 
-  constructor() {
+  // private socketService: SocketService;
+  constructor(public socketService: SocketService) {
     this.gamePlayers = [];
+
+    this.socketService.connect().then(res => {
+      console.log('Connected');
+      this.socketService.publish({event: 'registerNewGame', payload: 'walla'});
+    }).catch(err => {
+      console.log('Not connected', err);
+    })
+
   }
 
   public get round() {
@@ -118,6 +129,7 @@ export class GameService {
 
   private setRemoteGame() {
     if (this.remoteGame === true) {
+      // this.socketService.connect();
       // TODO create game in server
     }
   }
