@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {config} from './config';
+import {config} from '../config';
 
 @Injectable()
 export class SocketService {
@@ -23,15 +23,26 @@ export class SocketService {
         }
       } catch (e) {}
     }
-    if (key && this.listeners.isKeyRegistered(key, msgData.payload.action)) {
-      this.listeners.executeHandlers(key, msgData.payload.action, msgData.payload.data);
+    if (key && this.listeners.isKeyRegistered(key)) {
+      this.listeners.executeHandlers(key, msgData.payload);
     } else {
       console.log('Unhandled Message received', msg);
     }
   }
 
-  public publish({event, payload}) {
+  public publish({event, payload}): void {
     this.socketInstance.send(JSON.stringify({event, payload}));
+  }
+
+  public publishAndRegister({event, payload, handler}) {
+    this.publish({event, payload});
+    this.registerListener({
+      event: event + '_response',
+      handler: (payload) => {
+        handler(payload);
+        this.listeners.remove(event + '_response')
+      }
+    })
   }
 
   private _connect() {
@@ -62,12 +73,12 @@ export class SocketService {
     }, config.CONNECTION_TIMEOUT);
   }
 
-  registerListener({event, actions}) {
-    for (let action in actions) {
-      if (actions.hasOwnProperty(action)) {
-        this.listeners.register(event, action, actions[action]);
-      }
-    }
+  registerListener({event, handler}) {
+    this.listeners.register(event, handler);
+  }
+
+  removeListener({event, handler}) {
+    this.listeners.remove(event, handler);
   }
 }
 
@@ -75,23 +86,30 @@ class Listeners {
   private myListeners = {};
   constructor() {}
 
-  register(key: string, action: string, handler: Function): void {
+  register(key: string, handler: Function): void {
     if (!this.myListeners.hasOwnProperty(key)) {
-      this.myListeners[key] = {};
+      this.myListeners[key] = new Set();
     }
-    if (!this.myListeners[key].hasOwnProperty(action)) {
-      this.myListeners[key][action] = [];
-    }
-    this.myListeners[key][action].push(handler);
+    this.myListeners[key].add(handler);
   }
 
-  isKeyRegistered(key: string, action: string): boolean {
-    return !!this.myListeners[key] && !!this.myListeners[key][action];
+  remove(key: string, handler: Function = null): boolean {
+    if (this.myListeners.hasOwnProperty(key)) {
+      if (handler) {
+        return this.myListeners[key].delete(handler);
+      }
+      return delete this.myListeners[key];
+    }
+    return false;
   }
 
-  executeHandlers(key: string, action: string, payload: {}): void {
-    if (this.myListeners.hasOwnProperty(key) && this.myListeners[key].hasOwnProperty(action)) {
-      this.myListeners[key][action].forEach(handler => handler(payload));
+  isKeyRegistered(key: string): boolean {
+    return !!this.myListeners[key];
+  }
+
+  executeHandlers(key: string, payload: {}): void {
+    if (this.myListeners.hasOwnProperty(key)) {
+      this.myListeners[key].forEach(handler => handler(payload));
     }
   }
 }

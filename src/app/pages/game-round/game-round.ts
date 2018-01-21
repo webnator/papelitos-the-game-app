@@ -1,10 +1,10 @@
 import {AfterViewInit, Component, ViewChild} from '@angular/core';
 import {IonicPage, NavController} from 'ionic-angular';
 
-import {GameService} from '../../app/shared/Game.service';
+import {GameService} from '../../shared/Game.service';
 import {PagesList} from "../pages.factory";
-import {Team} from "../../app/shared/Team";
-import {config} from "../../app/shared/config";
+import {Team} from "../../shared/Team";
+import {config} from "../../config";
 import {TimerComponent} from "../../components/timer/timer";
 
 @IonicPage()

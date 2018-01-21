@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {IonicPage, NavController, MenuController} from 'ionic-angular';
 
-import {GameService} from '../../app/shared/Game.service';
+import {GameService} from '../../shared/Game.service';
 import {PagesList} from '../pages.factory';
 
 @IonicPage()
@@ -17,6 +17,8 @@ export class HomePage {
 
   startGame() {
     this.game.start();
+    // TODO Remove debug log
+    console.log('HEYYYY', PagesList.userSelection);
     this.navCtrl.push(PagesList.userSelection);
   }
 

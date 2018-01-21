@@ -7,7 +7,7 @@ import {MyApp} from './app.component';
 import {GameService} from './shared/Game.service'
 import {StatusBar} from '@ionic-native/status-bar';
 import {SplashScreen} from '@ionic-native/splash-screen';
-import {SocketService} from "./shared/socket.service";
+import {SocketService} from "./providers/socket.service";
 
 @NgModule({
   declarations: [

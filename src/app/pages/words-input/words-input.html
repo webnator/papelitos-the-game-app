@@ -3,7 +3,7 @@
   <ion-row>
     <ion-col col-2>
       <div *ngFor="let player of playerList" (click)="selectPlayerForWordSelection(player)">
-        {{ player.alias }} <span *ngIf="player.hasEnteredWords === true">√</span>
+        {{ player.alias }} <span *ngIf="player.isRemote">(R)</span> <span *ngIf="player.hasEnteredWords === true">√</span>
       </div>
     </ion-col>
     <ion-col>
@@ -20,4 +20,7 @@
 
     </ion-col>
   </ion-row>
+  <div *ngIf="waitingRemotely">
+    Esperando por los demas jugadores...
+  </div>
 </ion-content>

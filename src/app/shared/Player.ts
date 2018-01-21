@@ -1,6 +1,5 @@
 
-
-import {config} from "./config";
+import {config} from "../config";
 
 const WORDS_PER_PLAYER = config.WORDS_PER_PLAYER;
 
@@ -10,16 +9,26 @@ export class Player {
   private teamAssigned: boolean;
   private userWords: Array<string>;
   private wordsCompleted: boolean;
+  private _isRemote: boolean;
 
-  constructor(userName: string) {
+  constructor(remote: boolean = false, userName: string = '') {
     this.teamAssigned = false;
     this.userWords = Array(WORDS_PER_PLAYER).fill('');
-    this.userName = userName.charAt(0).toUpperCase() + userName.substr(1).toLowerCase();
-    this.setAlias();
+    this._isRemote = remote;
+    this.setName(userName);
   }
 
   get name(): string {
     return this.userName;
+  }
+
+  setName(userName: string) {
+    this.userName = userName.charAt(0).toUpperCase() + userName.substr(1).toLowerCase();
+    this.setAlias();
+  }
+
+  get isRemote(): boolean {
+    return this._isRemote === true;
   }
 
   get alias(): string {
@@ -43,8 +52,15 @@ export class Player {
     this.checkWords();
   }
 
-  setWord(index: number, word: string) {
-    this.userWords[index] = word;
+  setWord(index: number = null, word: string) {
+    if (!index) {
+      index = this.userWords.findIndex(word => word === '');
+    }
+    if (index !== null && index >= 0 && index < this.userWords.length) {
+      // TODO Remove debug log
+      console.log('Setting word', index, word);
+      this.userWords[index] = word;
+    }
     this.checkWords();
   }
 

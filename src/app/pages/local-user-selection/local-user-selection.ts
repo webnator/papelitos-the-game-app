@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {IonicPage, NavController} from 'ionic-angular';
 
-import {GameService} from '../../app/shared/Game.service';
+import {GameService} from '../../shared/Game.service';
 import {PagesList} from "../pages.factory";
 
 @IonicPage()

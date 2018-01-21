@@ -1,6 +1,6 @@
 
 import {Player} from "./Player";
-import {config} from "./config";
+import {config} from "../config";
 
 export class Team {
   private MAX_PLAYERS: number = config.MAX_TEAM_PLAYERS;

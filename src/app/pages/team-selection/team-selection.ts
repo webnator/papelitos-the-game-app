@@ -1,11 +1,11 @@
 import {Component} from '@angular/core';
 import {IonicPage, NavController} from 'ionic-angular';
 
-import {GameService} from '../../app/shared/Game.service';
+import {GameService} from '../../shared/Game.service';
 import {PagesList} from "../pages.factory";
-import {Player} from "../../app/shared/Player";
-import {Team} from "../../app/shared/Team";
-import {shuffleArray} from "../../app/shared/commons";
+import {Player} from "../../shared/Player";
+import {Team} from "../../shared/Team";
+import {shuffleArray} from "../../shared/commons";
 
 @IonicPage()
 @Component({

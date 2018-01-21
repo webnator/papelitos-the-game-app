@@ -1,0 +1,26 @@
+
+<ion-content padding>
+  <div *ngIf="!game.isReady">
+    Creando el juego en el servidor...
+  </div>
+  <div *ngIf="game.isReady">
+    <div *ngIf="game.remoteGame === true">
+      Código de juego: {{game.remoteId }}
+      <br/>
+      Envía este código a tus amigos para que puedan unirse a la partida
+    </div>
+
+    <ion-list>
+      <ion-item *ngFor="let player of playerList; trackBy: trackByIndex; let i = index ">
+        <ion-input type="text" placeholder="Nombre del jugador {{i+1}}" (blur)="setPlayerName(i, $event)" value="{{player}}" ></ion-input>
+      </ion-item>
+    </ion-list>
+    <button (click)="confirmScreen()" [disabled]="playersEntered">Siguiente</button>
+    <div *ngIf="error" [innerHTML]="error"></div>
+
+    <div *ngIf="allLocalPlayersAreFilled === true">
+      Waiting for the rest of players
+    </div>
+  </div>
+
+</ion-content>
