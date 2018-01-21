@@ -57,8 +57,6 @@ export class Player {
       index = this.userWords.findIndex(word => word === '');
     }
     if (index !== null && index >= 0 && index < this.userWords.length) {
-      // TODO Remove debug log
-      console.log('Setting word', index, word);
       this.userWords[index] = word;
     }
     this.checkWords();

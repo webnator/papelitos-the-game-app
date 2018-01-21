@@ -18,11 +18,6 @@ export class NameInputPage {
   public playersEntered: boolean = false;
 
   constructor(public navCtrl: NavController, public game: GameService, public socketService: SocketService) {
-    //INIT
-    this.game.start();
-    this.game.setTotalNumPlayers(8);
-    this.game.setTotalNumLocalPlayers(6);
-
     this.playerList = Array(this.game.localPlayers).fill('');
   }
 

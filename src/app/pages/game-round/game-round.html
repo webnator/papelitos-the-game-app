@@ -13,7 +13,11 @@
   <div *ngIf="gameState === States.PLAYER_CALL">
     <span>Equipo {{currentTeam.name}}</span>
     <br/>
-    <span>{{currentTeam.currentPlayer.name}}... Es tu turno</span>
+    <span>
+      <span *ngIf="currentTeam.currentPlayer.isRemote"> Es el turno de: </span>
+      {{currentTeam.currentPlayer.name}}
+      <span *ngIf="!currentTeam.currentPlayer.isRemote"> ... Es tu turno</span>
+    </span>
     <br/>
     <button (click)="startTurn()">Comenzar</button>
   </div>
@@ -35,7 +39,7 @@
         </ion-col>
       </ion-row>
 
-      <ion-row>
+      <ion-row *ngIf="gameState === States.PLAYER_TURN && !currentTeam.currentPlayer.isRemote">
         <ion-col>{{ game.guessWord }}</ion-col>
       </ion-row>
       <ion-row>
@@ -46,13 +50,13 @@
       <ion-row>
         <ion-col>Papelitos restantes: <strong>{{ game.roundWords.length }}</strong></ion-col>
       </ion-row>
-      <ion-row>
+      <ion-row *ngIf="gameState === States.PLAYER_TURN && !currentTeam.currentPlayer.isRemote">
         <ion-col>
           <button (click)="wordGuessed()">SIGUIENTE PALABRA</button>
         </ion-col>
       </ion-row>
 
-      <ion-row *ngIf="gameState === States.PLAYER_TURN">
+      <ion-row *ngIf="gameState === States.PLAYER_TURN && !currentTeam.currentPlayer.isRemote">
         <ion-col>
           Puntos este turno: <strong>{{turnPoints}}</strong>
           <br/><br/><br/>
