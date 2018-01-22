@@ -17,8 +17,6 @@ export class HomePage {
 
   startGame() {
     this.game.start();
-    // TODO Remove debug log
-    console.log('HEYYYY', PagesList.userSelection);
     this.navCtrl.push(PagesList.userSelection);
   }
 
