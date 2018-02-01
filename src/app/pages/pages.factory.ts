@@ -8,4 +8,5 @@ export const PagesList = {
   wordsInput: 'WordsInputPage',
   gameRound: 'GameRoundPage',
   gameFinish: 'GameFinishPage',
+  joinGame: 'JoinGamePage'
 };

@@ -36,12 +36,12 @@ export class TeamSelectionPage {
     if (team) {
       team.setPlayer(player);
     }
-
   }
 
   public confirmScreen(): void {
     if (!this.getNextTeamMissingPlayers()) {
       if (this.showConfirmScreen === true) {
+        this.game.teamsSet();
         this.navCtrl.push(PagesList.wordsInput);
       } else {
         this.showConfirmScreen = true;

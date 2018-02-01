@@ -29,22 +29,32 @@ export class NameInputPage {
     if (this.allLocalPlayersAreFilled) {
       this.game.setPlayers(this.playerList);
       this.playersEntered = true;
-      if (this.game.allPlayersSet) {
-        this.navCtrl.push(PagesList.teamSelection);
+      if (!this.game.joinedGame) {
+        if (this.game.allPlayersSet) {
+          this.navCtrl.push(PagesList.teamSelection);
+        } else {
+          this.socketService.registerListener({event: 'playerSet_response', handler: this.handleRemotePlayer.bind(this)})
+        }
       } else {
-        this.socketService.registerListener({event: 'playerSet', handler: this.handleRemotePlayer.bind(this)})
+        this.socketService.registerListener({event: 'teamsSet_response', handler: this.handleRemoteTeamSetting.bind(this)})
       }
+
     } else {
       this.error = 'Debes introducir el nombre de <strong>todos</strong> los jugadores';
     }
   }
 
   private handleRemotePlayer() {
-    // TODO Remove debug log
-    console.log('Hey ho!', this.game);
     if (this.game.allPlayersSet) {
-      this.socketService.removeListener({event: 'playerSet', handler: this.handleRemotePlayer.bind(this)});
+      this.socketService.removeListener({event: 'playerSet_response', handler: this.handleRemotePlayer.bind(this)});
       this.navCtrl.push(PagesList.teamSelection);
+    }
+  }
+
+  private handleRemoteTeamSetting() {
+    if (this.game.allPlayersSet) {
+      this.socketService.removeListener({event: 'teamsSet_response', handler: this.handleRemotePlayer.bind(this)});
+      this.navCtrl.push(PagesList.wordsInput);
     }
   }
 

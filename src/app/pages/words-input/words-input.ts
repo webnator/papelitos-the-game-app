@@ -32,12 +32,13 @@ export class WordsInputPage {
 
   public confirmScreen(): void {
     const nextPlayer = this.getNextPlayerWithoutWords();
+    this.game.sendPlayersWords();
     if (nextPlayer) {
       this.currentPlayer = nextPlayer;
     } else if (!this.allPlayersHaveWords) {
       this.waitingRemotely = true;
       this.socketService.registerListener({
-        event: 'wordEntering',
+        event: 'wordEntering_response',
         handler: this.handleRemoteWordEnter.bind(this)
       })
     } else {

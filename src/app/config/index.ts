@@ -10,5 +10,5 @@ export const config = {
     { title: 'Tercera Ronda', text: 'Solo <strong>una (1)</strong> palabra!!!' },
   ],
   SOCKET_URL: 'ws://localhost:9201',
-  CONNECTION_TIMEOUT: 5000
+  CONNECTION_TIMEOUT: 50000
 };

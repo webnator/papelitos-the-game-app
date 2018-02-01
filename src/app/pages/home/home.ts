@@ -20,4 +20,8 @@ export class HomePage {
     this.navCtrl.push(PagesList.userSelection);
   }
 
+  joinGame() {
+    this.navCtrl.push(PagesList.joinGame);
+  }
+
 }
