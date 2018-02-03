@@ -145,16 +145,18 @@ export class GameService {
   }
 
   public sendPlayersWords() {
-    this.gamePlayers.forEach(player => {
-      this.socketService.publish({
-        event: 'wordEntering',
-        payload: {
-          code: this._remoteGameId,
-          player: player.name,
-          words: player.words
-        }
+    this.gamePlayers
+      .filter(player => !player.isRemote)
+      .forEach(player => {
+        this.socketService.publish({
+          event: 'wordEntering',
+          payload: {
+            code: this._remoteGameId,
+            player: player.name,
+            words: player.words
+          }
+        });
       });
-    });
   }
 
   private sendPlayersToServer(players: Array<string>) {
@@ -192,8 +194,6 @@ export class GameService {
   }
 
   private handleRemoteTeams(payload: any) {
-    // TODO Remove debug log
-    console.log('RECEIVED tems', payload);
     payload.teams.forEach(serverTeam => {
       const gameTeam = this.gameTeams.find(gameTeam => gameTeam.name === serverTeam.teamName);
       serverTeam.players.forEach(teamPlayer => {
@@ -205,8 +205,6 @@ export class GameService {
   }
 
   private handleRemoteWordEnter(payload: any) {
-    // TODO Remove debug log
-    console.log('Received words', payload);
     const player = this.players.find((player: Player) => player.name === payload.player && player.isRemote === true);
     if (player) {
       if (typeof payload.word === 'string') {

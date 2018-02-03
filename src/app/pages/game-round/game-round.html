@@ -19,7 +19,7 @@
       <span *ngIf="!currentTeam.currentPlayer.isRemote"> ... Es tu turno</span>
     </span>
     <br/>
-    <button (click)="startTurn()">Comenzar</button>
+    <button *ngIf="!currentTeam.currentPlayer.isRemote" (click)="startTurn()">Comenzar</button>
   </div>
 
   <!-- Player turn -->

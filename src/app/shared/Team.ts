@@ -54,6 +54,7 @@ export class Team {
   }
 
   nextPlayer(): Player {
+    console.log('Getting next player', this.currentPlayerIndex, this.players.length, this.players, this.teamName);
     if (this.currentPlayerIndex >= (this.players.length - 1)) {
       this.currentPlayerIndex = 0;
     } else {
