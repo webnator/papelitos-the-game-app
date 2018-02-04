@@ -9,7 +9,7 @@ import {SocketService} from '../../providers/socket.service';
 
 @IonicPage()
 @Component({
-  selector: 'page-team-selection',
+  selector: 'page-words-input',
   templateUrl: 'words-input.html',
 })
 

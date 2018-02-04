@@ -2,30 +2,30 @@
 <ion-content padding>
   <!-- Round start information screen -->
   <div *ngIf="gameState === States.ROUND_INFO && game.round">
-    <span>{{ game.round.title }}</span>
+    <h3>{{ game.round.title }}</h3>
     <br/>
     <span [innerHTML]="game.round.text"></span>
-    <br/>
-    <button (click)="beginPlayerTurns()">Comenzar</button>
+    <br/><br/>
+    <button ion-button full (click)="beginPlayerTurns()">Comenzar</button>
   </div>
 
   <!-- Player call -->
   <div *ngIf="gameState === States.PLAYER_CALL">
-    <span>Equipo {{currentTeam.name}}</span>
+    <h4>Equipo {{currentTeam.name}}</h4>
     <br/>
     <span>
       <span *ngIf="currentTeam.currentPlayer.isRemote"> Es el turno de: </span>
       {{currentTeam.currentPlayer.name}}
-      <span *ngIf="!currentTeam.currentPlayer.isRemote"> ... Es tu turno</span>
+      <span *ngIf="!currentTeam.currentPlayer.isRemote">... Es tu turno</span>
     </span>
     <br/>
-    <button *ngIf="!currentTeam.currentPlayer.isRemote" (click)="startTurn()">Comenzar</button>
+    <button ion-button full *ngIf="!currentTeam.currentPlayer.isRemote" (click)="startTurn()">Comenzar</button>
   </div>
 
   <!-- Player turn -->
   <div [hidden]="gameState !== States.PLAYER_TURN">
     <ion-grid>
-      <ion-row *ngIf="gameState === States.PLAYER_TURN">
+      <ion-row class="team-info" *ngIf="gameState === States.PLAYER_TURN">
         <ion-col col-1>
           {{currentTeam.name}}
         </ion-col>
@@ -39,10 +39,14 @@
         </ion-col>
       </ion-row>
 
-      <ion-row *ngIf="gameState === States.PLAYER_TURN && !currentTeam.currentPlayer.isRemote">
-        <ion-col>{{ game.guessWord }}</ion-col>
+      <ion-row class="guess-word" *ngIf="gameState === States.PLAYER_TURN && !currentTeam.currentPlayer.isRemote">
+        <ion-col>
+          <br/><br/>
+          <h2>{{ game.guessWord }}</h2>
+          <br/>
+        </ion-col>
       </ion-row>
-      <ion-row>
+      <ion-row class="round-timer">
         <ion-col>
           <timer [time]="TURN_TIME" (onChange)="handleTimer($event)"></timer>
         </ion-col>
@@ -52,7 +56,7 @@
       </ion-row>
       <ion-row *ngIf="gameState === States.PLAYER_TURN && !currentTeam.currentPlayer.isRemote">
         <ion-col>
-          <button (click)="wordGuessed()">SIGUIENTE PALABRA</button>
+          <button ion-button full (click)="wordGuessed()">SIGUIENTE PALABRA</button>
         </ion-col>
       </ion-row>
 
@@ -94,9 +98,7 @@
           </ion-row>
         </ion-item>
       </ion-list>
-      <button (click)="beginPlayerTurns()">Continuar</button>
-
-
+      <button ion-button full (click)="beginPlayerTurns()">Continuar</button>
 
     </ion-grid>
   </div>

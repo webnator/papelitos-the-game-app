@@ -1,19 +1,28 @@
-
 <div>
   <ion-grid>
     <ion-row>
       <ion-col>
-        <button (click)="add()">+</button>
+        <button ion-button outline icon-only (click)="add()">
+          <ion-icon class="md-add" name="add"></ion-icon>
+        </button>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col >
+        <input class="selector-input"
+                   text-center
+                   type="text"
+                   readonly="true"
+                   (keyup)="setNumValue($event)"
+                   [(ngModel)]="numValue"
+                   placeholder="0">
       </ion-col>
     </ion-row>
     <ion-row>
       <ion-col>
-        <input type="number" (keyup)="setNumValue($event)" [(ngModel)]="numValue" placeholder="0" >
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col>
-        <button (click)="subtract()">-</button>
+        <button ion-button outline icon-only (click)="subtract()">
+          <ion-icon name="remove"></ion-icon>
+        </button>
       </ion-col>
     </ion-row>
   </ion-grid>

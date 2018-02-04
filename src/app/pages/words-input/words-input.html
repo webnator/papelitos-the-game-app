@@ -1,22 +1,27 @@
-
 <ion-content padding>
   <ion-row>
-    <ion-col col-2>
-      <div *ngFor="let player of playerList" (click)="selectPlayerForWordSelection(player)">
-        {{ player.alias }} <span *ngIf="player.isRemote">(R)</span> <span *ngIf="player.hasEnteredWords === true">√</span>
+    <ion-col col-3>
+      <div class="player"
+           *ngFor="let player of playerList"
+           (click)="selectPlayerForWordSelection(player)"
+           [ngClass]="{'active': currentPlayer === player, 'remote': player.isRemote }">
+        <ion-icon *ngIf="player.isRemote" name="wifi"></ion-icon>
+        {{ player.alias }}
+        <ion-icon class="check" *ngIf="player.hasEnteredWords === true" name="checkmark"></ion-icon>
       </div>
     </ion-col>
     <ion-col>
       <span>{{ currentPlayer.name }}... Es tu turno</span>
       <span>Introduce {{ currentPlayer.words.length }}</span> palabras o frases cortas que los demás deberán adivinar
 
+      <br/><br/>
       <ion-list>
         <ion-item *ngFor="let word of currentPlayer.words; trackBy: trackByIndex; let i = index ">
           <ion-input type="text" placeholder="Palabra {{i+1}}" (blur)="currentPlayer.setWord(i, $event.target.value)" value="{{word}}" ></ion-input>
         </ion-item>
       </ion-list>
-
-      <button (click)="confirmScreen()">Siguiente</button>
+      <br/><br/>
+      <button ion-button block (click)="confirmScreen()">Siguiente</button>
 
     </ion-col>
   </ion-row>

@@ -1,3 +1,44 @@
 page-team-selection {
+  text-align: center;
+
+  .team-selector {
+    max-height: 10vh;
+    overflow-x: scroll;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  .player-list {
+    button {
+      ion-icon {
+        margin-top: 4px;
+      }
+    }
+  }
+
+  .team-component {
+    cursor: pointer;
+    width: 20vw;
+    text-align: center;
+    display: inline-block;
+    min-height: 10vh;
+    vertical-align: top;
+
+    .team-name {
+      display: inline-block;
+      border: 1px solid blue;
+      border-radius: 100%;
+      width: 28px;
+      font-size: 20px;
+      line-height: 25px;
+    }
+  }
+
+  .confirmation-screen {
+    text-align: left;
+  }
 
 }

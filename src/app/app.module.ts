@@ -8,6 +8,7 @@ import {GameService} from './shared/Game.service'
 import {StatusBar} from '@ionic-native/status-bar';
 import {SplashScreen} from '@ionic-native/splash-screen';
 import {SocketService} from "./providers/socket.service";
+import {ComponentsModule} from "./components/components.module";
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import {SocketService} from "./providers/socket.service";
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
+    ComponentsModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

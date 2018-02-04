@@ -1,3 +1,17 @@
 page-game-round {
+  text-align: center;
+  .guess-word {
+    text-align: center;
+  }
+
+  .team-info {
+    text-align: left;
+  }
+
+  .round-timer {
+    text-align: center;
+    font-size: 5em;
+    color: rgba(0,0,0,0.3);
+  }
 
 }

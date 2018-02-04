@@ -12,8 +12,7 @@ import {TimerComponent} from "./timer/timer";
   ],
   imports: [
     CommonModule,
-    IonicModule.forRoot(NumberSelectorComponent),
-    IonicModule.forRoot(TimerComponent),
+    IonicModule,
   ],
   exports: [
     NumberSelectorComponent,

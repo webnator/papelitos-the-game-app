@@ -1,3 +1,24 @@
 page-words-input {
+  .player {
+    border: 1px solid color($colors, primary);
+    border-radius: 3px;
+    text-align: left;
+    padding: 5px 1px;
+    margin: 5px;
+    width: 100%;
+    cursor: pointer;
 
+    &.active {
+      background-color: color($colors, primary);
+    }
+
+    &.remote {
+      cursor: none;
+    }
+
+    .check {
+      float: right;
+      margin-right: 5px;
+    }
+  }
 }

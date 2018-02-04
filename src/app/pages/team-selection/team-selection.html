@@ -1,26 +1,35 @@
-
 <ion-content padding>
   <div *ngIf="!selectionStarted">
     ¿Quieres que formemos los equipos aleatoriamente, o quieres formarlos tú?
-    <button (click)="selectTeams(true)">Aleatorio</button>
-    <button (click)="selectTeams(false)">Yo me encargo</button>
+    <br/><br/>
+    <button ion-button large round (click)="selectTeams(true)">Aleatorio</button>
+    <br/><br/>
+    <button ion-button round color="secondary" (click)="selectTeams(false)">Yo me encargo</button>
   </div>
   <div *ngIf="selectionStarted && !showConfirmScreen">
-    <div>
-      <div *ngFor="let team of teamList; let i = index" (click)="team.removePlayer()">
-        <span>{{ i + 1 }}</span>
-        <span *ngFor="let player of team.players">
-          - {{player.alias}}
-        </span>
+    <div class="team-selector">
+      <div class="team-component" *ngFor="let team of teamList; let i = index" (click)="team.removePlayer()">
+        <div class="team-name">{{ i + 1 }}</div>
+
+        <div class="team-members">
+          <div *ngFor="let player of team.players">
+            {{player.alias}}
+          </div>
+        </div>
       </div>
     </div>
-    <div>
-      <div *ngFor="let player of playerList">
-        <button (click)="assignTeam(player)" [disabled]="player.hasTeam">{{ player.name }}</button>
-      </div>
+
+    <div class="player-list">
+      <ion-list>
+        <button ion-item icon-left *ngFor="let player of playerList" (click)="assignTeam(player)" [disabled]="player.hasTeam">
+          <ion-icon [name]="player.hasTeam ? 'checkmark-circle' : 'radio-button-off'"></ion-icon>
+          {{ player.name }}
+        </button>
+      </ion-list>
     </div>
   </div>
-  <div *ngIf="showConfirmScreen">
+  <div *ngIf="showConfirmScreen" class="confirmation-screen">
+    <h3>Equipos</h3>
     <div *ngFor="let team of teamList; let i = index">
       <span>{{ i + 1 }}</span>
       <span *ngFor="let player of team.players">
@@ -28,6 +37,17 @@
         </span>
     </div>
   </div>
-  <button *ngIf="showConfirmScreen" (click)="goBack()">Atras</button>
-  <button (click)="confirmScreen()">Siguiente</button>
+
 </ion-content>
+<ion-footer no-padding style="margin:0 0 !Important;">
+  <ion-grid>
+    <ion-row>
+      <ion-col *ngIf="showConfirmScreen">
+        <button ion-button full color="dark" outline (click)="goBack()">Atras</button>
+      </ion-col>
+      <ion-col *ngIf="selectionStarted">
+        <button ion-button full (click)="confirmScreen()">Siguiente</button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-footer>

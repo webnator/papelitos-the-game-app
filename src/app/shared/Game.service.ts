@@ -145,18 +145,20 @@ export class GameService {
   }
 
   public sendPlayersWords() {
-    this.gamePlayers
-      .filter(player => !player.isRemote)
-      .forEach(player => {
-        this.socketService.publish({
-          event: 'wordEntering',
-          payload: {
-            code: this._remoteGameId,
-            player: player.name,
-            words: player.words
-          }
+    if (this.remoteGame) {
+      this.gamePlayers
+        .filter(player => !player.isRemote)
+        .forEach(player => {
+          this.socketService.publish({
+            event: 'wordEntering',
+            payload: {
+              code: this._remoteGameId,
+              player: player.name,
+              words: player.words
+            }
+          });
         });
-      });
+    }
   }
 
   private sendPlayersToServer(players: Array<string>) {

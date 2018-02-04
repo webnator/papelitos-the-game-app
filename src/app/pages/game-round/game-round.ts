@@ -30,17 +30,37 @@ export class GameRoundPage implements AfterViewInit {
   public turnPoints: number = 0;
 
   constructor(public navCtrl: NavController, public game: GameService, public socketService: SocketService) {
+    // INIT
+    this.game.start();
+    this.game.setTotalNumPlayers(12);
+    this.game.setTotalNumLocalPlayers(12);
+    this.game.setPlayers(["Williams", "Mari", "Leo", "Fatima", "Hernan", "Angela", "Juan Luis", "Erika", "Victoria", "Papa", "Ma Daniela", "Onelia"]);
+    this.game.players.forEach(player => {
+      [0,1,2].forEach(i => {
+        player.setWord(i, 'word' + i);
+      });
+      this.game.teams.find(team => team.teamComplete === false).setPlayer(player);
+    });
+    // INIT
+
     this.game.roundFinished.subscribe(this.gameRoundFinished.bind(this));
     this.teamList = this.game.teams;
-    this.socketService.registerListener({ event: 'beginPlayerTurns_response', handler: this.handleRemotebeginPlayerTurns.bind(this) });
-    this.socketService.registerListener({ event: 'startTurn_response', handler: this.startTurn.bind(this) });
-    //this.socketService.registerListener({ event: 'finishTurn_response', handler: this.finishTurn.bind(this) });
-    this.socketService.registerListener({ event: 'wordGuessed_response', handler: this.wordGuessed.bind(this) });
+
+    if (this.game.remoteGame) {
+      this.registerListeners();
+    }
   }
 
   ngAfterViewInit() {
     this.currentTeamIndex = -1;
     this.startNewRound();
+  }
+
+  private registerListeners() {
+    this.socketService.registerListener({ event: 'beginPlayerTurns_response', handler: this.handleRemotebeginPlayerTurns.bind(this) });
+    this.socketService.registerListener({ event: 'startTurn_response', handler: this.startTurn.bind(this) });
+    //this.socketService.registerListener({ event: 'finishTurn_response', handler: this.finishTurn.bind(this) });
+    this.socketService.registerListener({ event: 'wordGuessed_response', handler: this.wordGuessed.bind(this) });
   }
 
   public get currentTeam() {

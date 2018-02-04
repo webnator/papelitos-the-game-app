@@ -15,12 +15,15 @@
         <ion-input type="text" placeholder="Nombre del jugador {{i+1}}" (blur)="setPlayerName(i, $event)" value="{{player}}" ></ion-input>
       </ion-item>
     </ion-list>
-    <button (click)="confirmScreen()" [disabled]="playersEntered">Siguiente</button>
-    <div *ngIf="error" [innerHTML]="error"></div>
+    <div class="generic-error" *ngIf="error" [innerHTML]="error"></div>
 
     <div *ngIf="allLocalPlayersAreFilled === true">
-      Waiting for the rest of players
+      Esperando por el resto de jugadores
     </div>
   </div>
 
 </ion-content>
+
+<ion-footer no-padding style="margin:0 0 !Important;">
+  <button ion-button full (click)="confirmScreen()" [disabled]="playersEntered">Siguiente</button>
+</ion-footer>

@@ -2,5 +2,8 @@
 <ion-content padding>
   ¿Cuantos desde este dispositivo?
   <number-selector [max]="gamePlayers" (onChange)="localPlayerSelection($event)"></number-selector>
-  <button (click)="confirmScreen()">Siguiente</button>
 </ion-content>
+<ion-footer no-padding style="margin:0 0 !Important;">
+  <button ion-button full (click)="confirmScreen()">Siguiente</button>
+</ion-footer>
+
