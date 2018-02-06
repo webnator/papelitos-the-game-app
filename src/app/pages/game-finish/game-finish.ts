@@ -13,12 +13,12 @@ import {Team} from "../../shared/Team";
 export class GameFinishPage {
   public orderedTeamList: Array<Team>;
 
-  constructor(public navCtrl: NavController, public game: GameService) {
-    this.orderedTeamList = this.game.getListOfTeamByPoints();
+  constructor(public navCtrl: NavController, public gameService: GameService) {
+    this.orderedTeamList = this.gameService.getListOfTeamByPoints();
   }
 
   public confirmScreen(): void {
-    this.game.reset();
+    this.gameService.reset();
     this.navCtrl.push(PagesList.home);
   }
 

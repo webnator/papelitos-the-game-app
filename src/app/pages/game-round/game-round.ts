@@ -7,6 +7,7 @@ import {Team} from "../../shared/Team";
 import {config} from "../../config";
 import {TimerComponent} from "../../components/timer/timer";
 import {SocketService} from "../../providers/socket.service";
+import {Game} from "../../shared/Game";
 
 @IonicPage()
 @Component({
@@ -28,13 +29,16 @@ export class GameRoundPage implements AfterViewInit {
   public States = GameStates;
   public TURN_TIME: number = config.TURN_TIME;
   public turnPoints: number = 0;
+  public game: Game;
 
-  constructor(public navCtrl: NavController, public game: GameService, public socketService: SocketService) {
+  constructor(public navCtrl: NavController, public gameService: GameService, public socketService: SocketService) {
+    this.game = this.gameService.getGame();
     // INIT
-    this.game.start();
-    this.game.setTotalNumPlayers(12);
-    this.game.setTotalNumLocalPlayers(12);
-    this.game.setPlayers(["Williams", "Mari", "Leo", "Fatima", "Hernan", "Angela", "Juan Luis", "Erika", "Victoria", "Papa", "Ma Daniela", "Onelia"]);
+    this.gameService.start();
+    this.gameService.setTotalNumPlayers(12);
+    this.gameService.setTotalNumLocalPlayers(12);
+    this.gameService.setPlayers(["Williams", "Mari", "Leo", "Fatima", "Hernan", "Angela", "Juan Luis", "Erika", "Victoria", "Papa", "Ma Daniela", "Onelia"]);
+    this.game = this.gameService.getGame();
     this.game.players.forEach(player => {
       [0,1,2].forEach(i => {
         player.setWord(i, 'word' + i);
@@ -68,8 +72,8 @@ export class GameRoundPage implements AfterViewInit {
   }
 
   private startNewRound() {
-    if (this.game.isThereANextRound()) {
-      this.game.startRound();
+    if (this.gameService.isThereANextRound()) {
+      this.gameService.startRound();
       this.roundFinished = false;
       this.gameState = GameStates.ROUND_INFO;
     } else {
@@ -107,7 +111,7 @@ export class GameRoundPage implements AfterViewInit {
   }
 
   private finishTurn() {
-    this.orderedTeamList = this.game.getListOfTeamByPoints();
+    this.orderedTeamList = this.gameService.getListOfTeamByPoints();
     this.gameState = GameStates.END_TURN;
     // if (this.game.remoteGame && !this.currentTeam.currentPlayer.isRemote) {
     //   console.log('Sending socket event Finishing turn!');

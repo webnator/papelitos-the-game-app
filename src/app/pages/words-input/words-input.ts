@@ -6,6 +6,7 @@ import {PagesList} from "../pages.factory";
 import {Player} from "../../shared/Player";
 import {trackByIndex} from "../../shared/commons";
 import {SocketService} from '../../providers/socket.service';
+import {Game} from "../../shared/Game";
 
 @IonicPage()
 @Component({
@@ -18,8 +19,10 @@ export class WordsInputPage {
   public currentPlayer: Player;
   public trackByIndex: any = trackByIndex;
   public waitingRemotely: boolean;
+  public game: Game;
 
-  constructor(public navCtrl: NavController, public game: GameService, public socketService: SocketService) {
+  constructor(public navCtrl: NavController, public gameService: GameService, public socketService: SocketService) {
+    this.game = this.gameService.getGame();
     this.playerList = this.game.players;
     this.currentPlayer = this.getNextPlayerWithoutWords();
   }
@@ -32,7 +35,7 @@ export class WordsInputPage {
 
   public confirmScreen(): void {
     const nextPlayer = this.getNextPlayerWithoutWords();
-    this.game.sendPlayersWords();
+    this.gameService.sendPlayersWords();
     if (nextPlayer) {
       this.currentPlayer = nextPlayer;
     } else if (!this.allPlayersHaveWords) {

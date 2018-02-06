@@ -12,14 +12,12 @@ import {PagesList} from '../pages.factory';
 export class JoinGamePage {
   public error: string;
 
-  constructor(public navCtrl: NavController, public game: GameService) {}
+  constructor(public navCtrl: NavController, public gameService: GameService) {}
 
   public confirmScreen(code: string, totalPlayers: number): void {
     this.error = null;
-    this.game.join(code, totalPlayers).then((res) => {
-      this.game.setTotalNumLocalPlayers(totalPlayers);
-      // TODO Remove debug log
-      console.log('HEEEEYYY', this.game);
+    this.gameService.join(code, totalPlayers).then(() => {
+      this.gameService.setTotalNumLocalPlayers(totalPlayers);
       this.navCtrl.push(PagesList.nameInput);
     }).catch((err) => {
       this.error = err;

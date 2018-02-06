@@ -6,6 +6,8 @@
   Cuantos jugadores estarán jugando desde este dispositivo?
   <number-selector #totalPlayers></number-selector>
 
-  <button (click)="confirmScreen(gameCode.value, totalPlayers.numValue)">Siguiente</button>
-  <div *ngIf="error" [innerHTML]="error"></div>
+  <div class="generic-error" *ngIf="error" [innerHTML]="error"></div>
 </ion-content>
+<ion-footer no-padding style="margin:0 0 !Important;">
+  <button ion-button full (click)="confirmScreen(gameCode.value, totalPlayers.numValue)">Siguiente</button>
+</ion-footer>

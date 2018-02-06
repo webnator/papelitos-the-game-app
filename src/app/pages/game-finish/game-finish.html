@@ -1,10 +1,9 @@
 <ion-content padding>
   Final del juego
-
+  <br/><br/><br/>
   <div>
-    {{orderedTeamList[0].name}}
-    <br/>
-    Ganador!
+    <h2>Equipo {{orderedTeamList[0].name}}</h2>
+    <h3>Ganador!</h3>
   </div>
 
   <ion-list>
@@ -19,6 +18,6 @@
       </ion-row>
     </ion-item>
   </ion-list>
-  <button (click)="confirmScreen()">Terminar</button>
+  <button ion-button full (click)="confirmScreen()">Terminar</button>
 
 </ion-content>

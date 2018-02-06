@@ -5,6 +5,7 @@ import {GameService} from '../../shared/Game.service';
 import {PagesList} from "../pages.factory";
 import {trackByIndex} from "../../shared/commons";
 import {SocketService} from '../../providers/socket.service';
+import {Game} from "../../shared/Game";
 
 @IonicPage()
 @Component({
@@ -16,8 +17,11 @@ export class NameInputPage {
   public error: string;
   public trackByIndex: any = trackByIndex;
   public playersEntered: boolean = false;
+  public game: Game;
 
-  constructor(public navCtrl: NavController, public game: GameService, public socketService: SocketService) {
+  constructor(public navCtrl: NavController, public gameService: GameService, public socketService: SocketService) {
+    this.game = this.gameService.getGame();
+    console.log('Game', this.game);
     this.playerList = Array(this.game.localPlayers).fill('');
   }
 
@@ -27,7 +31,7 @@ export class NameInputPage {
 
   public confirmScreen(): void {
     if (this.allLocalPlayersAreFilled) {
-      this.game.setPlayers(this.playerList);
+      this.gameService.setPlayers(this.playerList);
       this.playersEntered = true;
       if (!this.game.joinedGame) {
         if (this.game.allPlayersSet) {
@@ -64,7 +68,5 @@ export class NameInputPage {
     }
     return true;
   }
-
-  private
 
 }

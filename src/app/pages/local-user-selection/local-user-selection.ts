@@ -13,8 +13,8 @@ export class LocalUserSelectionPage {
   private localPlayers: number;
   public gamePlayers: number;
 
-  constructor(public navCtrl: NavController, public game: GameService) {
-    this.gamePlayers = this.game.totalPlayers;
+  constructor(public navCtrl: NavController, public gameService: GameService) {
+    this.gamePlayers = this.gameService.getGame().totalPlayers;
   }
 
   public localPlayerSelection(playerTotal: number): void {
@@ -22,7 +22,7 @@ export class LocalUserSelectionPage {
   }
 
   public confirmScreen(): void {
-    this.game.setTotalNumLocalPlayers(this.localPlayers);
+    this.gameService.setTotalNumLocalPlayers(this.localPlayers);
     this.navCtrl.push(PagesList.nameInput);
   }
 

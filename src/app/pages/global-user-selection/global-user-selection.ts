@@ -15,8 +15,7 @@ export class GlobalUserSelectionPage {
   public maxPlayers: number = config.MAX_GAME_PLAYERS;
   public error: string;
 
-  constructor(public navCtrl: NavController, public game: GameService) {
-  }
+  constructor(public navCtrl: NavController, public gameService: GameService) {}
 
   public totalPlayerSelection(playerTotal: number): void {
     this.error = null;
@@ -26,7 +25,7 @@ export class GlobalUserSelectionPage {
   public confirmScreen(): void {
     this.error = null;
     if (this.totalPlayers > 0 && this.totalPlayers % 2 == 0) {
-      this.game.setTotalNumPlayers(this.totalPlayers);
+      this.gameService.setTotalNumPlayers(this.totalPlayers);
       this.navCtrl.push(PagesList.localUserSelection);
     } else {
       // TODO sacar a archivo de strings de respuesta

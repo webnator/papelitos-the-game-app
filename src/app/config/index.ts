@@ -9,6 +9,6 @@ export const config = {
     { title: 'Segunda Ronda', text: 'Describe la palabra o frase usando mímica, recuerda, no puedes hablar!' },
     { title: 'Tercera Ronda', text: 'Solo <strong>una (1)</strong> palabra!!!' },
   ],
-  SOCKET_URL: 'ws://localhost:9201',
+  SOCKET_URL: 'ws://192.168.1.75:9201',
   CONNECTION_TIMEOUT: 50000
 };
